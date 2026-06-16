@@ -301,7 +301,7 @@ img {
   color: var(--accent-strong);
   line-height: 1.16;
   overflow-wrap: anywhere;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .hero__title {
@@ -624,7 +624,7 @@ img {
 .article__content ol,
 .article__content blockquote {
   overflow-wrap: anywhere;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .article__content p,
@@ -920,7 +920,7 @@ img {
   color: var(--text-soft);
   font-size: 0.82rem;
   line-height: 1.55;
-  word-break: break-all;
+  word-break: break-word;
   transition: color 160ms ease, transform 160ms ease;
 }
 
