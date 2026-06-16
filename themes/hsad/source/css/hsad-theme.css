@@ -688,7 +688,8 @@ img {
 .article__content .code-frame {
   margin: 1.2rem 0 1.35rem;
   border-radius: 1rem;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid rgba(25, 39, 53, 0.16);
   background:
     linear-gradient(180deg, rgba(34, 44, 56, 0.96), rgba(24, 31, 40, 0.98));
@@ -737,7 +738,8 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: pre-wrap;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   text-overflow: ellipsis;
 }
 
@@ -773,7 +775,8 @@ img {
   margin: 0;
   padding: 1rem 1.05rem 1.08rem;
   max-width: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 0;
   background: transparent;
   color: #f8fafc;
