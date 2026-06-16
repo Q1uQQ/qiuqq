@@ -795,7 +795,7 @@ img {
   width: 100%;
   max-width: 100%;
   display: block;
-  overflow-x: auto;
+  overflow-y: auto;
   border-collapse: collapse;
   font-size: 0.9em;
 }
