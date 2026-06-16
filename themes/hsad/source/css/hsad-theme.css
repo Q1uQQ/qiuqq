@@ -603,7 +603,7 @@ img {
   line-height: 1.9;
   color: var(--text);
   overflow-wrap: break-word;
-  text-wrap: pretty;
+  text-wrap: wrap;
 }
 
 .article__content > *:first-child {
