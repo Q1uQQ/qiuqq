@@ -1,0 +1,19 @@
+extends ./_partial/base.pug
+
+block content
+  - var categories = site.categories ? (typeof site.categories.toArray === 'function' ? site.categories.toArray() : (site.categories.data || [])) : []
+  - categories = categories.filter(function(category) { return category.length; }).sort(function(a, b) { return b.length - a.length; })
+  section.page-intro
+    p.page-intro__kicker Overview
+    h1.page-intro__title 分类
+    p.page-intro__description= categories.length ? `${categories.length} 个分类，把写过的东西分开摆放。` : '暂时还没有分类。'
+  if categories.length
+    .tax-list
+      each category in categories
+        a.tax-row(href=url_for(category.path))
+          strong.tax-row__name= category.name
+          span.tax-row__count= `${category.length} 篇`
+  else
+    .empty-state
+      h2.empty-state__title 暂时还没有分类
+      p.empty-state__text 等以后再慢慢长出来。

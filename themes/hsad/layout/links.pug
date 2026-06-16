@@ -1,0 +1,23 @@
+extends ./_partial/base.pug
+
+block content
+  - var links = page.links || []
+  section.page-intro
+    p.page-intro__kicker Friends
+    h1.page-intro__title= page.title || '友链'
+    p.page-intro__description= page.description || '一些很喜欢的站点和朋友。'
+  if page.content
+    .article.article--page
+      .article__content
+        != page.content
+  .friend-grid
+    each item in links
+      a.friend-card(href=item.url target='_blank' rel='noopener')
+        if item.avatar
+          img.friend-card__avatar(src=item.avatar alt=item.name || item.blog || 'avatar' loading='lazy')
+        .friend-card__body
+          strong.friend-card__name= item.name || item.blog
+          if item.blog
+            span.friend-card__blog= item.blog
+          if item.desc
+            p.friend-card__desc= item.desc

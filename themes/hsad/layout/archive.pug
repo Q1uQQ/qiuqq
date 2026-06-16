@@ -1,0 +1,9 @@
+extends ./_partial/base.pug
+
+block content
+  section.page-intro
+    p.page-intro__kicker Archive
+    h1.page-intro__title= page.year ? `${page.year}` : '归档'
+    p.page-intro__description 按时间完整排开，这里更像总目录。
+  include _partial/archive-list
+  include _partial/pagination

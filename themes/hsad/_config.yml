@@ -1,0 +1,41 @@
+avatar: /images/avatar.jpg
+sidebar_background: /images/background.png
+accent_color: '#496b8c'
+accent_soft: '#dce8f0'
+brand_name: hsad
+brand_subtitle: QiuQQ
+sidebar_note: "挟星镌云 扶摇荫凉"
+hero:
+  title: ''
+  kicker: ''
+  description: ''
+excerpt_length: 56
+menu:
+  - name: 首页
+    path: /
+  - name: 归档
+    path: /archives/
+  - name: 分类
+    path: /categories/
+  - name: 标签
+    path: /tags/
+  - name: 友链
+    path: /links/
+  - name: 关于
+    path: /about/
+social:
+  - name: GitHub
+    url: https://github.com/yourname
+  - name: E-Mail
+    url: mailto:you@example.com
+footer:
+  text: 写下想留下的，再让时间排好顺序。
+  support:
+    enable: false
+    title: Your Sponsor
+    link: https://example.com/
+    logo: ''
+    prefix: Supported by
+    suffix: ''
+  license_name: CC BY-NC 4.0
+  license_url: https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans

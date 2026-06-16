@@ -1,0 +1,39 @@
+- var postCollection = []
+if page.posts
+  if typeof page.posts.toArray === 'function'
+    - postCollection = page.posts.toArray()
+  else if page.posts.data
+    - postCollection = page.posts.data
+  else
+    - postCollection = page.posts
+if postCollection.length
+  .post-list
+    each post in postCollection
+      - var categoryList = []
+      - if (post.categories)
+      -   if (typeof post.categories.toArray === 'function') categoryList = post.categories.toArray()
+      -   else if (post.categories.data) categoryList = post.categories.data
+      - var summarySource = post.description || post.excerpt || post.content || ''
+      - var summaryPlain = String(summarySource || '').replace(/<pre[\s\S]*?<\/pre>/gi, ' ').replace(/<code[\s\S]*?<\/code>/gi, ' ').replace(/<table[\s\S]*?<\/table>/gi, ' ').replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<figure[\s\S]*?<\/figure>/gi, ' ').replace(/<img\b[^>]*>/gi, ' ').replace(/&lt;[^&]{0,120}?&gt;/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&(?:nbsp|ensp|emsp);/gi, ' ').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'").replace(/\s+/g, ' ').trim()
+      - if (post.title && summaryPlain.indexOf(post.title) === 0) summaryPlain = summaryPlain.slice(post.title.length).trim()
+      - var sentenceMatch = summaryPlain.match(/^(.{1,90}?[。！？!?\.])/)
+      - if (sentenceMatch) summaryPlain = sentenceMatch[1]
+      - if (!summaryPlain || summaryPlain.length < 8 || /^[\d\W]+$/.test(summaryPlain) || /[{}<>_=]{2,}|MathJax|function\s*\(|#include|SELECT\s+|Here's something encrypted/i.test(summaryPlain) || /\b(dependency|groupId|artifactId|version|xml|DOCTYPE|CDATA|import\s+[\w.*{},\s]+from)\b/i.test(summaryPlain) || /^(TEXT|C|JAVA|PYTHON|BASH|SHELL|SQL|HTML)\b/i.test(summaryPlain) || /^(新依赖|依赖|原理|环境|步骤| payload|payload[:：])/i.test(summaryPlain)) summaryPlain = ''
+      - var previewLimit = theme.excerpt_length || 72
+      - var summary = summaryPlain.length > previewLimit ? `${summaryPlain.slice(0, previewLimit).trim()}...` : summaryPlain
+      article.post-card
+        header.post-card__header
+          h2.post-card__title
+            a(href=url_for(post.path))= post.title
+          .post-card__meta
+            time(datetime=date_xml(post.date))= date(post.date, config.date_format || 'YYYY-MM-DD')
+            if categoryList.length
+              span.post-card__dot /
+              a.post-card__meta-link(href=url_for(categoryList[0].path))= categoryList[0].name
+        if summary
+          p.post-card__summary= summary
+        a.post-card__more(href=url_for(post.path)) 阅读全文
+else
+  .empty-state
+    h2.empty-state__title 暂时还没有内容
+    p.empty-state__text 这里很快会长出新的文章。

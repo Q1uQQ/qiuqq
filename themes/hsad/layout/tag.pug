@@ -1,0 +1,13 @@
+extends ./_partial/base.pug
+
+block content
+  - var pathParts = (page.path || '').split('/').filter(Boolean)
+  - var slug = pathParts[pathParts.length - 1] || ''
+  - if (slug === 'index.html') slug = pathParts[pathParts.length - 2] || ''
+  - var tagTitle = (page.tag && page.tag.name) || page.tag || (slug ? decodeURIComponent(slug) : '') || page.title || '标签'
+  section.page-intro
+    p.page-intro__kicker Tag
+    h1.page-intro__title= tagTitle
+    p.page-intro__description 一些关键词，用来更快地找到它们。
+  include _partial/archive-list
+  include _partial/pagination

@@ -1,0 +1,59 @@
+extends ./_partial/base.pug
+
+block content
+  - var categoryList = []
+  - if (page.categories)
+  -   if (typeof page.categories.toArray === 'function') categoryList = page.categories.toArray()
+  -   else if (page.categories.data) categoryList = page.categories.data
+  - var tagList = []
+  - if (page.tags)
+  -   if (typeof page.tags.toArray === 'function') tagList = page.tags.toArray()
+  -   else if (page.tags.data) tagList = page.tags.data
+  - var headingMatches = page.content ? page.content.match(/<h[2-4]\b/gi) : null
+  - var hasToc = headingMatches && headingMatches.length
+  - var mobileTocHtml = hasToc ? toc(page.content, { min_depth: 2, max_depth: 3, list_number: false, class: 'post-toc__list' }) : ''
+  - var desktopTocHtml = hasToc ? toc(page.content, { min_depth: 2, max_depth: 2, list_number: false, class: 'post-toc__list' }) : ''
+  .article-layout(class=hasToc ? 'article-layout--with-toc' : 'article-layout--plain')
+    article.article
+      header.article__header
+        if categoryList.length
+          .article__eyebrow
+            each category, idx in categoryList
+              if idx
+                span.article__divider /
+              a(href=url_for(category.path))= category.name
+        h1.article__title= page.title
+        .article__meta
+          time(datetime=date_xml(page.date))= date(page.date, config.date_format || 'YYYY-MM-DD')
+          if page.updated
+            span.article__divider /
+            span= `更新于 ${date(page.updated, config.date_format || 'YYYY-MM-DD')}`
+        if tagList.length
+          .article__tags
+            each tag in tagList
+              a.article__tag(href=url_for(tag.path))= tag.name
+      if hasToc
+        details.post-outline.post-outline--mobile
+          summary.post-outline__summary
+            span 本文导航
+            small 按标题快速定位
+          nav.post-toc(data-post-toc)
+            != mobileTocHtml
+      .article__content
+        != page.content
+    if hasToc
+      aside.post-outline.post-outline--desktop(aria-label='文章目录')
+        p.post-outline__eyebrow 本文导航
+        p.post-outline__title 章节概览
+        nav.post-toc(data-post-toc)
+          != desktopTocHtml
+  if page.prev || page.next
+    nav.post-nav
+      if page.prev
+        a.post-nav__item.post-nav__item--prev(href=url_for(page.prev.path))
+          span.post-nav__label 上一篇
+          strong= page.prev.title
+      if page.next
+        a.post-nav__item.post-nav__item--next(href=url_for(page.next.path))
+          span.post-nav__label 下一篇
+          strong= page.next.title
