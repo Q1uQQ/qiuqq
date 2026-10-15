@@ -1,18 +1,50 @@
 extends ./_partial/base.pug
 
 block content
-  - var categories = site.categories ? (typeof site.categories.toArray === 'function' ? site.categories.toArray() : (site.categories.data || [])) : []
-  - categories = categories.filter(function(category) { return category.length; }).sort(function(a, b) { return b.length - a.length; })
+  //- 没有任何分类的文章归入「未分类」，名称与 config.default_category 保持一致
+  - var uncategorizedName = config.default_category || '未分类'
+  - var rawCategories = site.categories ? (typeof site.categories.toArray === 'function' ? site.categories.toArray() : (site.categories.data || [])) : []
+  - var uncategorizedPosts = []
+  each post in site.posts.toArray()
+    - var postCats = post.categories ? (typeof post.categories.toArray === 'function' ? post.categories.toArray() : (post.categories.data || [])) : []
+    if !postCats.length
+      - uncategorizedPosts.push(post)
+  - var categories = rawCategories.filter(function(category) { return category.length; })
+  if uncategorizedPosts.length
+    - categories.push({ name: uncategorizedName, path: config.category_dir + '/' + uncategorizedName + '/', length: uncategorizedPosts.length, posts: uncategorizedPosts, isUncategorized: true })
+  - categories.sort(function(a, b) { return b.length - a.length; })
+
   section.page-intro
     p.page-intro__kicker Overview
     h1.page-intro__title 分类
     p.page-intro__description= categories.length ? `${categories.length} 个分类，把写过的东西分开摆放。` : '暂时还没有分类。'
+
   if categories.length
     .tax-list
       each category in categories
-        a.tax-row(href=url_for(category.path))
-          strong.tax-row__name= category.name
-          span.tax-row__count= `${category.length} 篇`
+        //- 该分类下的文章：按时间倒序，最近更新的排在最前
+        - var catPosts
+        if category.isUncategorized
+          - catPosts = category.posts.slice().sort(function(a, b) { return b.date.valueOf() - a.date.valueOf(); })
+        else if typeof category.posts.toArray === 'function'
+          - catPosts = category.posts.sort('date', -1).toArray()
+        else
+          - catPosts = (category.posts || []).slice().sort(function(a, b) { return b.date.valueOf() - a.date.valueOf(); })
+        //- 最近更新时间 = 该分类下最新一篇文章的时间
+        - var latestPost = catPosts.length ? catPosts[0] : null
+        section.tax-block
+          .tax-row
+            a.tax-row__name(href=url_for(category.path))= category.name
+            .tax-row__meta
+              span.tax-row__count= `${category.length} 篇`
+              if latestPost
+                time.tax-row__updated(datetime=date_xml(latestPost.date))= `最近更新 ${date(latestPost.date, 'YYYY-MM-DD HH:mm')}`
+          if catPosts.length
+            ul.tax-posts
+              each post in catPosts
+                li.tax-posts__item
+                  a.tax-posts__link(href=url_for(post.path))= post.title
+                  time.tax-posts__date(datetime=date_xml(post.date))= date(post.date, 'MM-DD')
   else
     .empty-state
       h2.empty-state__title 暂时还没有分类

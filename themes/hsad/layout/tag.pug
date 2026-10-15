@@ -1,10 +1,18 @@
 extends ./_partial/base.pug
 
+//- 同 category.pug：<title> 在父模板中先于 content 求值，这里显式覆写。
+block head_title
+  - var __parts = (page.path || '').split('/').filter(Boolean)
+  - var __slug = __parts[__parts.length - 1] || ''
+  - if (__slug === 'index.html') __slug = __parts[__parts.length - 2] || ''
+  - var __tagName = (page.tag && page.tag.name) || (page.tag ? String(page.tag) : '') || (__slug ? decodeURIComponent(__slug) : '') || page.title || '标签'
+  = `${__tagName} | ${theme.brand_name || config.title || 'Blog'}`
+
 block content
   - var pathParts = (page.path || '').split('/').filter(Boolean)
   - var slug = pathParts[pathParts.length - 1] || ''
   - if (slug === 'index.html') slug = pathParts[pathParts.length - 2] || ''
-  - var tagTitle = (page.tag && page.tag.name) || page.tag || (slug ? decodeURIComponent(slug) : '') || page.title || '标签'
+  - var tagTitle = (page.tag && page.tag.name) || (page.tag ? String(page.tag) : '') || (slug ? decodeURIComponent(slug) : '') || page.title || '标签'
   section.page-intro
     p.page-intro__kicker Tag
     h1.page-intro__title= tagTitle

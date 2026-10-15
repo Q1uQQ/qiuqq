@@ -1,10 +1,19 @@
 extends ./_partial/base.pug
 
+//- 分类页的 page.title 由 Hexo 生成器提供，但 <title> 在父模板中先于 content 求值，
+//- 因此这里显式覆写 head_title，让浏览器标题显示分类名而非站点名。
+block head_title
+  - var __parts = (page.path || '').split('/').filter(Boolean)
+  - var __slug = __parts[__parts.length - 1] || ''
+  - if (__slug === 'index.html') __slug = __parts[__parts.length - 2] || ''
+  - var __catName = (page.category && page.category.name) || (page.category ? String(page.category) : '') || (__slug ? decodeURIComponent(__slug) : '') || page.title || '分类'
+  = `${__catName} | ${theme.brand_name || config.title || 'Blog'}`
+
 block content
   - var pathParts = (page.path || '').split('/').filter(Boolean)
   - var slug = pathParts[pathParts.length - 1] || ''
   - if (slug === 'index.html') slug = pathParts[pathParts.length - 2] || ''
-  - var categoryTitle = (page.category && page.category.name) || page.category || (slug ? decodeURIComponent(slug) : '') || page.title || '分类'
+  - var categoryTitle = (page.category && page.category.name) || (page.category ? String(page.category) : '') || (slug ? decodeURIComponent(slug) : '') || page.title || '分类'
   section.page-intro
     p.page-intro__kicker Category
     h1.page-intro__title= categoryTitle

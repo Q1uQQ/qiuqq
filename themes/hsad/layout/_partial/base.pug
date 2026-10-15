@@ -16,7 +16,9 @@ html(lang=config.language || 'zh-CN')
     meta(name='description' content=currentDescription)
     meta(name='author' content=config.author || siteTitle)
     != meta_generator()
-    title= currentTitle
+    title
+      block head_title
+        = currentTitle
     if accentColor || accentSoft
       style.
         :root {
