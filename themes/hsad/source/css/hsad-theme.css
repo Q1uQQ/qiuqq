@@ -1091,11 +1091,16 @@ img {
   margin-top: 1.25rem;
 }
 
+/* 没有头像的友链卡片不应留出空的头像列（auto 会让该列塌缩） */
 .friend-card {
   display: grid;
-  grid-template-columns: 4rem 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
+}
+
+.friend-card:not(:has(.friend-card__avatar)) {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .friend-card__avatar {

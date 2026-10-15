@@ -3,8 +3,13 @@ extends ./_partial/base.pug
 block content
   article.article.article--page
     header.article__header
+      //- eyebrow 由页面的 front-matter 提供（如「关于」页写 About），没写就不显示
+      if page.eyebrow
+        p.article__eyebrow= page.eyebrow
       h1.article__title= page.title
-      if page.date
+      //- Hexo 会把页面的 date 自动填成文件创建时间，所以这里用 show_date 显式控制，
+      //- 否则「友链」「关于」这类静态页面顶上会莫名多出一个日期。
+      if page.show_date
         .article__meta
           time(datetime=date_xml(page.date))= date(page.date, config.date_format || 'YYYY-MM-DD')
     .article__content
