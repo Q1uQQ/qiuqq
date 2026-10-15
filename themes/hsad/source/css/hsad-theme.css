@@ -228,6 +228,38 @@ img {
   gap: 0.35rem;
 }
 
+/* 社交链接的悬停浮层（内容来自主题配置里的 tip） */
+.sidebar__social a.has-tip {
+  position: relative;
+}
+
+.sidebar__social a.has-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 0.65rem;
+  transform: translateY(-50%) translateX(-4px);
+  padding: 0.24rem 0.58rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.5rem;
+  background: rgba(22, 34, 47, 0.94);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.sidebar__social a.has-tip:hover::after,
+.sidebar__social a.has-tip:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
 .site-main {
   margin-left: var(--sidebar-width);
   padding: 2.7rem clamp(1.7rem, 3.6vw, 3.3rem) 4rem;

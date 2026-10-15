@@ -25,9 +25,11 @@ menu:
     path: /about/
 social:
   - name: GitHub
-    url: https://github.com/yourname
+    url: https://github.com/Q1uQQ
   - name: E-Mail
-    url: mailto:you@example.com
+    url: mailto:2829030221@qq.com
+    # 鼠标悬停时在旁边显示这一行；留空则不显示
+    tip: 2829030221@qq.com
 footer:
   text: 写下想留下的，再让时间排好顺序。
   support:

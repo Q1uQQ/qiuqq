@@ -27,4 +27,5 @@ section(class=`sidebar sidebar--${mode}`)
     if socialItems.length
       .sidebar__social
         each item in socialItems
-          a(href=item.url target='_blank' rel='noopener')= item.name
+          //- tip 写了就做成悬停浮层；同时也放 title，兼顾键盘与触屏
+          a(href=item.url target='_blank' rel='noopener' title=item.tip || null class=item.tip ? 'has-tip' : null data-tip=item.tip || null)= item.name
