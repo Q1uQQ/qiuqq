@@ -1,0 +1,69 @@
+# 把博客发布到 GitHub Pages
+#
+# 只用 GitHub 官方 action，不引入第三方 action：
+#   actions/configure-pages、actions/upload-pages-artifact、actions/deploy-pages
+#
+# 工作方式：push 到 main 后，自动跑 hexo generate，
+# 把 public/ 目录作为产物交给 GitHub Pages 发布。
+# 源码仓库保持干净，构建产物不会进 main 分支。
+#
+# 注意：GitHub Pages 的发布不需要额外密钥，
+# 用的是仓库自带的 GITHUB_TOKEN（下面的 permissions 已声明所需权限）。
+
+name: 发布到 GitHub Pages
+
+on:
+  # 推送到 main 时自动发布
+  push:
+    branches: [main]
+  # 也可以在 Actions 页面手动点一下运行
+  workflow_dispatch:
+
+# 允许读取仓库内容、写入 Pages、验证部署来源
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个发布任务；排队中的旧任务直接取消，避免浪费
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取出源码
+        uses: actions/checkout@v4
+
+      - name: 准备 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 生成静态站点
+        run: npx hexo clean && npx hexo generate
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+
+      - name: 上传站点产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 发布到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
