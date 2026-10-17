@@ -6,3 +6,7 @@ node_modules/
 public/
 .deploy*/
 _multiconfig.yml
+
+# 写作台的草稿：只留在本地，不提交到仓库
+# （仓库是 public，草稿属于未完成的内容，不该公开；Hexo 本来也不会渲染 _drafts）
+source/_drafts/
