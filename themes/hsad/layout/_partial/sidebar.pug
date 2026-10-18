@@ -10,7 +10,7 @@ section(class=`sidebar sidebar--${mode}`)
       if theme.avatar
         img.sidebar__avatar(src=url_for(theme.avatar) alt=(config.author || config.title || 'Avatar'))
       .sidebar__identity
-        h2.sidebar__title= theme.brand_name || config.title || 'hsad'
+        h2.sidebar__title= theme.brand_name || config.title || 'QIUblog'
         if theme.brand_subtitle || config.subtitle
           p.sidebar__subtitle= theme.brand_subtitle || config.subtitle
     if theme.sidebar_note || config.description

@@ -2,10 +2,9 @@ avatar: /images/avatar.jpg
 sidebar_background: /images/background.png
 accent_color: '#496b8c'
 accent_soft: '#dce8f0'
-brand_name: hsad
+brand_name: QIUblog
 brand_subtitle: QiuQQ
 # 浏览器标签页 / 窗口标题里显示的名字（留空则用 brand_name）
-# 只影响 <title>，不会改变侧边栏里显示的 brand_name
 window_title: QIUblog
 sidebar_note: "挟星镌云 扶摇荫凉"
 hero:
