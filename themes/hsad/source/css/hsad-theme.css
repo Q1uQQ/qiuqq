@@ -173,7 +173,8 @@ img {
   font-size: clamp(1.95rem, 2.3vw, 2.4rem);
   line-height: 0.98;
   letter-spacing: 0;
-  text-transform: lowercase;
+  /* 保留配置里写的大小写（以前强制小写，QIUblog 会被显示成 qiublog） */
+  text-transform: none;
 }
 
 .sidebar__subtitle {
@@ -1305,7 +1306,7 @@ img {
     color: var(--accent-strong);
     text-align: center;
     letter-spacing: 0;
-    text-transform: lowercase;
+    text-transform: none;
   }
 
   .mobile-topbar__avatar img {
